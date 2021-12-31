@@ -2,7 +2,9 @@
 
 name: tqsdk2
 
-on: repository_dispatch
+on:
+  repository_dispatch:
+    types: [run-ci-*]
 
 jobs:
   build-tqsdk2-wheel:
@@ -21,6 +23,11 @@ jobs:
             python-arch: x64
 
     steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
     - name: Checkout
       uses: actions/checkout@v2
       with:
